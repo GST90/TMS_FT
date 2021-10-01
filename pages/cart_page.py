@@ -1,5 +1,6 @@
 from pages.base_page import BasePage
 from locators.cart_page_locators import CartPageLocators
+from decimal import Decimal
 
 
 class CartPage(BasePage):
@@ -8,9 +9,10 @@ class CartPage(BasePage):
         title = self.find_element(CartPageLocators.LOCATOR_GOODS_TITLE).text
         assert title == goods_title, f" title not equal {goods_title}"
 
-    def check_price_appeared(self, goods_price):
-        price = self.find_element(CartPageLocators.LOCATOR_TOTAL_PRICE).text
-        assert price == goods_price, f" title not equal {goods_price}"
+    def check_price_appeared(self, num):
+        price_for_unit = int(Decimal(self.find_element(CartPageLocators.LOCATOR_UNIT_PRICE).text.strip('$')))
+        total_price = int(Decimal(self.find_element(CartPageLocators.LOCATOR_TOTAL_PRICE).text.strip('$')))
+        assert total_price == price_for_unit * num, f"not equal {total_price}"
 
     def click_confirm_button(self):
         confirm_button = self.find_element(CartPageLocators.LOCATOR_CONFIRM_ORDER)
