@@ -13,6 +13,7 @@ def test_check_order_confirmed(browser, db_client):
     user = "erebb@mail.ru"
     passwd = "1111"
     title = "Red Duck"
+    price = "$60.00"
     with allure.step('Open page'):
         base_page.open_base_page()
     with allure.step('Set login keys'):
@@ -34,7 +35,7 @@ def test_check_order_confirmed(browser, db_client):
         main_page.click_checkout_button()
     with allure.step(f'Check goods title {title} appeared'):
         cart_page.check_title_appeared(title)
-    with allure.step(f'Check total price appeared'):
+    with allure.step(f'Check total price {price} appeared'):
         cart_page.check_price_appeared(3)
     with allure.step('Click the "Confirm order" button'):
         cart_page.click_confirm_button()
