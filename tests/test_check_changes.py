@@ -21,5 +21,5 @@ def test_check_changes_saved(browser):
         change_tab.click_save_button()
     with allure.step(f'{curr} currency appearance'):
         base_page.check_currency_presents(curr)
-    with allure.step(f'The {state} country appearance'):
+    with allure.step(f'{state} country appearance'):
         base_page.check_country_presents(state)
