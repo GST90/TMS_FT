@@ -1,5 +1,7 @@
 import requests
 import json
+from requests import Session
+from requests.adapters import HTTPAdapter, Retry
 
 
 class Api:
@@ -11,9 +13,16 @@ class Api:
         self.photoUrls = photoUrls
         self.role = role
         self.status = status
-        self.headers = {'accept': 'application/json', 'content-type': 'application/json'}
+        self.headers = {'api-key': 'special-key', 'accept': 'application/json',
+                        'content-type': 'application/json'}
 
     def add_pet(self, url, id, name, photoUrls, role, status):
+        retry = Retry(
+            total=5,
+            status_forcelist=[404, 405, 500],
+            backoff_factor=1)
+        session = Session()
+        session.mount('https://petstore.swagger.io/v2/pet', HTTPAdapter(max_retries=retry))
         data = {"id": id, "name": name,
                 "Photo": photoUrls, "status": status,
                 "type": role}
@@ -22,23 +31,43 @@ class Api:
         code = 200
         assert status == code, f'not equal {code}'
 
-    def check_pet(self):
-        url = self.url + '/' + str(self.id)
-        response = requests.get(url, headers=self.headers)
+    def check_pet(self, id):
+        retry = Retry(
+            total=5,
+            status_forcelist=[404, 405, 500],
+            backoff_factor=1)
+        session = Session()
+        session.mount('https://petstore.swagger.io/v2/pet', HTTPAdapter(max_retries=retry))
+        url = self.url + '/' + str(id)
+        response = session.get(url, headers=self.headers)
         status = response.status_code
         code = 200
         assert status == code, f'not equal {code}'
 
-    def delete_pet(self):
-        url = self.url + '/' + str(self.id)
-        response = requests.delete(url, headers=self.headers)
+    def delete_pet(self, id):
+        retry = Retry(
+            total=5,
+            status_forcelist=[404, 405, 500],
+            backoff_factor=1)
+        session = Session()
+        session.mount('https://petstore.swagger.io/v2/pet', HTTPAdapter(max_retries=retry))
+        url = self.url + '/' + str(id)
+        response = session.delete(url, headers=self.headers)
         status = response.status_code
         code = 200
         assert status == code, f'not equal {code}'
+        return status
 
-    def check_pet_deleted(self):
-        url = self.url + '/' + str(self.id)
-        response = requests.get(url, headers=self.headers)
+    def check_pet_deleted(self, id):
+        retry = Retry(
+            total=5,
+            status_forcelist=[200, 500],
+            backoff_factor=1)
+        session = Session()
+        session.mount('https://petstore.swagger.io/v2/pet', HTTPAdapter(max_retries=retry))
+        url = self.url + '/' + str(id)
+        response = session.get(url, headers=self.headers)
         status = response.status_code
         code = 404
         assert status == code, f'not equal {code}'
+        
