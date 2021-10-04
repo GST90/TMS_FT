@@ -20,5 +20,5 @@ def test_add_pet():
         api_page.check_pet(api_page.id)
     with allure.step(f'Delete pet with {id} from the store'):
         api_page.delete_pet(api_page.id)
-    with allure.step(f'Check pet with {id} in the store is deleted'):
+    with allure.step(f'Check pet with {id} is deleted from the store'):
         api_page.check_pet_deleted(api_page.id)
