@@ -13,8 +13,7 @@ class Api:
         self.photoUrls = photoUrls
         self.role = role
         self.status = status
-        self.headers = {'api-key': 'special-key', 'accept': 'application/json',
-                        'content-type': 'application/json'}
+        self.headers = {'accept': 'application/json', 'content-type': 'application/json'}
 
     def add_pet(self, url, id, name, photoUrls, role, status):
         retry = Retry(
@@ -56,7 +55,6 @@ class Api:
         status = response.status_code
         code = 200
         assert status == code, f'not equal {code}'
-        return status
 
     def check_pet_deleted(self, id):
         retry = Retry(
