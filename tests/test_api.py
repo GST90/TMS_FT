@@ -1,12 +1,11 @@
 import random
 from helpers.api_swagger import Api
 import allure
-from time import sleep
 
 
 @allure.feature('API-swagger test')
 def test_add_pet():
-    id = random.randint(2425, 2426)
+    id = random.randint(1, 3000)
     name = "Oondasta"
     role = "Hunting pet"
     photoUrls = "http://missset.com/models/dinosaurs/t-rex-in-zbrush/"
@@ -17,10 +16,9 @@ def test_add_pet():
         api_page.add_pet(api_page.url, api_page.id,
                          api_page.name, api_page.photoUrls,
                          api_page.role, api_page.status)
-        sleep(1)
-    with allure.step('Check pet in the store'):
-        api_page.check_pet()
-    with allure.step('Delete pet from the store'):
-        api_page.delete_pet()
-    with allure.step('Check pet in the store is deleted'):
-        api_page.check_pet_deleted()
+    with allure.step(f'Check pet with {id} in the store'):
+        api_page.check_pet(api_page.id)
+    with allure.step(f'Delete pet with {id} from the store'):
+        api_page.delete_pet(api_page.id)
+    with allure.step(f'Check pet with {id} in the store is deleted'):
+        api_page.check_pet_deleted(api_page.id)
