@@ -8,8 +8,7 @@ import time
 def test_check_changes_saved(browser):
     base_page = BasePage(browser)
     change_tab = ChagesTab(browser)
-    # curr = 'USD'
-    curr = 'EUR'
+    curr = 'USD'
     state = 'Belarus'
     with allure.step('Open "litecart" page'):
         base_page.open_base_page()
