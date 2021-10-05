@@ -10,7 +10,7 @@ def test_check_order_confirmed(browser, db_client):
     base_page = BasePage(browser)
     main_page = MainPage(browser)
     cart_page = CartPage(browser)
-    user = "erebb@mail.ru"
+    user = "stas.herasimenka.05@gmail.com"
     passwd = "1111"
     title = "Red Duck"
     total_price_USD = 60
